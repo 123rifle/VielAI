@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a18">
+  <meta name="description" content="VeilAI protects sensitive information in AI prompts directly in your browser.">
+  <title>VeilAI — Your privacy layer for AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="VeilAI home"><span class="brand-mark">V</span><span>veil<span class="brand-ai">ai</span></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav">
+        <a class="nav-link active" href="#protect"><span class="nav-icon">◈</span> Prompt protector</a>
+        <a class="nav-link" href="#how-it-works"><span class="nav-icon">⌘</span> How it works</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-card"><div class="privacy-icon">✳</div><strong>Local by design</strong><p>Your text stays in this browser. Nothing is uploaded to VeilAI.</p><span class="local-status"><i></i> Processing locally</span></div>
+        <div class="profile-row"><div class="avatar">V</div><div><strong>Personal workspace</strong><small>Local session</small></div><span class="dots">···</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <b>Prompt protector</b></div><div class="top-actions"><span class="secure-pill"><i></i> Private session</span><button class="icon-btn" id="helpBtn" aria-label="Help">?</button></div></header>
+      <section class="page-heading" id="protect"><div><div class="eyebrow">YOUR AI PRIVACY LAYER</div><h1>Keep your data <em>yours.</em></h1><p class="heading-copy">Remove sensitive information from prompts before sharing them with AI tools. Restore it in the response, right here.</p></div><div class="heading-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="shield">V</div><span class="spark s1">✳</span><span class="spark s2">✦</span></div></section>
+
+      <section class="stats-grid" aria-label="Session statistics">
+        <div class="stat-card"><div class="stat-top"><span>Prompts protected</span><span class="stat-icon">↗</span></div><strong id="promptCount">0</strong><small>This browser session</small></div>
+        <div class="stat-card"><div class="stat-top"><span>Sensitive items found</span><span class="stat-icon">⌕</span></div><strong id="itemCount">0</strong><small>Across protected prompts</small></div>
+        <div class="stat-card"><div class="stat-top"><span>Data sent to VeilAI</span><span class="stat-icon">◎</span></div><strong class="zero">0 bytes</strong><small>Your text is processed locally</small></div>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="panel editor-panel">
+          <div class="panel-head"><div><div class="panel-title">Prompt workspace</div><div class="panel-subtitle">Prepare a prompt before sending it to an AI tool</div></div><span class="step-label">01 / INPUT</span></div>
+          <div class="mode-row"><span class="field-label">Protection mode</span><div class="segmented" role="group" aria-label="Protection mode"><button class="segment active" data-mode="automatic">Automatic</button><button class="segment" data-mode="review">Review first</button></div></div>
+          <label class="field-label" for="promptInput">Your prompt</label>
+          <textarea id="promptInput" placeholder="Paste or write your prompt here…
+
+Example: My name is Ahmed Khan. Email me at ahmed@example.com and call 0300-1234567. Please draft a client proposal." spellcheck="false"></textarea>
+          <div class="input-meta"><span id="charCount">0 characters</span><button class="text-button" id="loadExample">Load example ↗</button></div>
+          <div class="editor-actions"><button class="btn btn-primary" id="scanBtn"><span>✳</span> Scan for sensitive data</button><button class="btn btn-quiet" id="clearBtn">Clear</button></div>
+          <div class="divider"></div>
+          <div class="panel-head result-head"><div><div class="panel-title">Detection review</div><div class="panel-subtitle" id="reviewSummary">Scan your prompt to see what VeilAI finds</div></div><span class="result-count" id="resultCount">0 found</span></div>
+          <div id="detectionList" class="detection-list empty-state"><div class="empty-symbol">⌕</div><strong>Nothing scanned yet</strong><p>Your detected information will appear here.</p></div>
+          <div class="review-footer"><span id="selectedSummary">0 items selected</span><button class="btn btn-primary" id="protectBtn" disabled>Protect selected <span>→</span></button></div>
+        </div>
+
+        <div class="right-column">
+          <div class="panel output-panel"><div class="panel-head"><div><div class="panel-title">Protected prompt</div><div class="panel-subtitle">Safe-to-share version</div></div><span class="output-tag">OUTPUT</span></div>
+            <div class="output-box" id="protectedOutput"><div class="output-placeholder"><span>◈</span><p>Your anonymized prompt will appear here.</p></div></div>
+            <div class="output-actions"><button class="btn btn-primary btn-small" id="copyProtected" disabled>Copy protected prompt</button><button class="btn btn-outline btn-small" id="downloadProtected" disabled title="Download protected prompt">↓</button></div>
+          </div>
+          <div class="panel restore-panel"><div class="panel-head"><div><div class="panel-title">Restore an AI response</div><div class="panel-subtitle">Replace placeholders with your original data</div></div><span class="restore-icon">↺</span></div>
+            <label class="field-label" for="responseInput">Paste the AI's response</label><textarea id="responseInput" class="response-input" placeholder="Paste an AI response containing placeholders like [EMAIL_1]…"></textarea>
+            <button class="btn btn-secondary btn-block" id="restoreBtn" disabled>Restore original details <span>→</span></button>
+            <div class="restored-wrap" id="restoredWrap" hidden><div class="restored-label">RESTORED RESPONSE</div><div id="restoredOutput" class="restored-output"></div><button class="text-button" id="copyRestored">Copy restored response ↗</button></div>
+          </div>
+          <div class="tip-card"><span class="tip-bulb">✦</span><div><strong>A little privacy goes a long way.</strong><p>Always review the protected prompt before sharing. Automated detection can miss sensitive details.</p></div></div>
+        </div>
+      </section>
+
+      <section class="panel settings-panel"><div class="panel-head"><div><div class="panel-title">Detection settings</div><div class="panel-subtitle">Fine-tune what VeilAI looks for</div></div><span class="settings-label">CUSTOMIZE</span></div>
+        <div class="settings-grid"><div><div class="setting-title">Detection categories</div><p class="setting-desc">Choose the types of information to scan for.</p><div class="category-grid" id="categoryGrid"></div></div>
+        <div class="custom-settings"><div class="setting-title">Custom keywords</div><p class="setting-desc">Protect words or phrases unique to you. One per line.</p><textarea id="keywordsInput" class="small-textarea" placeholder="Project Falcon&#10;Confidential client"></textarea><div class="setting-title allow-title">Allowlist</div><p class="setting-desc">Values here will be ignored during detection.</p><textarea id="allowlistInput" class="small-textarea" placeholder="public@example.com"></textarea></div></div>
+      </section>
+
+      <section class="how-section" id="how-it-works"><div class="eyebrow">SIMPLE BY DESIGN</div><h2>Privacy without the extra steps.</h2><div class="how-grid"><div><span>01</span><h3>Write your prompt</h3><p>Use the prompt workspace to prepare the text you want to share with an AI assistant.</p></div><div><span>02</span><h3>Protect your details</h3><p>VeilAI detects sensitive values and swaps selected items for consistent placeholders.</p></div><div><span>03</span><h3>Restore locally</h3><p>Paste the AI response here to restore placeholders using your browser's local session mapping.</p></div></div></section>
+      <footer><a class="brand footer-brand" href="#"><span class="brand-mark">V</span><span>veil<span class="brand-ai">ai</span></span></a><span>Privacy should be the default. <b>© 2026 VeilAI MVP</b></span><span class="footer-local"><i></i> Local-first processing</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
